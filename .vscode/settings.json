@@ -1,0 +1,30 @@
+{
+  "editor.minimap.enabled": false,
+  "editor.renderLineHighlight": "none",
+  "window.openFilesInNewWindow": "default",
+  "workbench.editor.enablePreview": true,
+  "editor.tabSize": 2,
+  "files.autoSave": "onFocusChange",
+  "C_Cpp.updateChannel": "Insiders",
+  "workbench.editorAssociations": [
+
+  ],
+  "editor.cursorBlinking": "expand",
+  "editor.codeLens": false,
+  "editor.gotoLocation.multipleReferences": "gotoAndPeek",
+  "editor.gotoLocation.multipleDefinitions": "gotoAndPeek",
+  "editor.gotoLocation.multipleImplementations": "gotoAndPeek",
+  "workbench.tree.renderIndentGuides": "none",
+  "diffEditor.renderIndicators": false,
+  "editor.renderIndentGuides": false,
+  "files.restoreUndoStack": false,
+  "C_Cpp.default.includePath": [],
+  "Notes.notesLocation": "/home/rishi/gitHUB/ebmAgentFromCmcoEbm",
+  "explorer.confirmDragAndDrop": false,
+  "C_Cpp.commentContinuationPatterns": [
+  
+      "/**"
+  ],
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.fontSize": 15
+}

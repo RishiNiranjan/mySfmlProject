@@ -1,0 +1,31 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "C/C++: g++ -std=c++11",
+			"command": "/usr/bin/g++",
+			"args": [
+				"-std=c++11",
+				"-g",
+				"main.cpp",
+				"-o",
+				"${fileDirname}/main",
+				"-lsfml-system",
+				"-lsfml-graphics",
+				"-lsfml-window",
+				"-lpthread"
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"isDefault": true,
+				"kind": "build"
+			}
+		}
+	]
+}
