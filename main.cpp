@@ -1,13 +1,13 @@
 #include "Game.hh"
 #include "thread"
 
-void playerUpdater(sf::RectangleShape &_player)
-{
-  while (true)
-  {
-    _player.setRotation(_player.getRotation() + 0.001);
-  }
-}
+// void playerUpdater(sf::RectangleShape &_player)
+// {
+//   while (true)
+//   {
+//     _player.setRotation(_player.getRotation() + 0.001);
+//   }
+// }
 
 int main(int argc, char *argv[])
 {

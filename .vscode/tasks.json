@@ -10,7 +10,7 @@
 				"-g",
 				"main.cpp",
 				"-o",
-				"${fileDirname}/main",
+				"${fileDirname}/bin/main",
 				"-lsfml-system",
 				"-lsfml-graphics",
 				"-lsfml-window",
