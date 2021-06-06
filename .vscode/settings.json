@@ -26,5 +26,12 @@
       "/**"
   ],
   "workbench.iconTheme": "material-icon-theme",
-  "editor.fontSize": 15
+  "editor.fontSize": 15,
+  "bracket-pair-colorizer-2.colors": [
+    "Black"
+  ],
+  "files.associations": {
+    "iostream": "cpp",
+    "cstring": "cpp"
+  }
 }

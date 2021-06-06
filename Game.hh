@@ -60,12 +60,10 @@ void Game::processEvents()
     if (event.type == sf::Event::Closed)
       _window.close();
     
-    if (event.type == sf::Event::KeyPressed)
-      if (event.key.code == sf::Keyboard::Escape)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         _window.close();
-
-    _player.processEvents(event);
   }
+  _player.processEvents();
 }
 
 void Game::update(sf::Time timePerFrame)

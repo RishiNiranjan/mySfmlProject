@@ -7,77 +7,88 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-class Player : public sf::Drawable
+#include "Action.hh"
+#include "ActionTarget.hh"
+#include "ActionMap.hh"
+
+class Player : public sf::Drawable, public ActionTarget<int>
 {
 public:
+  Player(const Player &) = delete;
+  Player &operator=(const Player &) = delete;
   Player();
-
   template <typename... Args>
-  void setPosition(Args &&...args)
-  {
-    _playerShape.setPosition(std::forward<Args>(args)...);
-  }
-
-  void processEvents(sf::Event event);
+  void setPosition(Args &&...args);
+  void processEvents();
   void update(sf::Time deltaTime);
+  enum PlayerInputs
+  {
+    Up,
+    Left,
+    Right
+  };
+  static void setDefaultsInputs();
+
+private:
   virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-  bool isMoving;
-  int rotation;
-  sf::RectangleShape _playerShape;
+  sf::RectangleShape _shape;
   sf::Vector2f _velocity;
+  bool _isMoving;
+  int _rotation;
+  static ActionMap<int> _playerInputs;
 };
 
-Player::Player() : _playerShape(sf::Vector2f(32, 32))
+ActionMap<int> Player::_playerInputs;
+
+Player::Player() : ActionTarget<int>(_playerInputs), _shape(sf::Vector2f(32, 32)), _isMoving(false), _rotation(0)
 {
-  std::cout<<"Player()"<<std::endl;
-  _playerShape.setFillColor(sf::Color::White);
-  _playerShape.setOrigin(16, 16);
-  setPosition(200, 200);
+  _shape.setFillColor(sf::Color::Blue);
+  _shape.setOrigin(16, 16);
+
+  bind(PlayerInputs::Up, [this](const sf::Event &)
+       { _isMoving = true; });
+
+  bind(PlayerInputs::Left, [this](const sf::Event &)
+       { _rotation -= 1; });
+
+  bind(PlayerInputs::Right, [this](const sf::Event &)
+       { _rotation += 1; });
 }
 
-void Player::processEvents(sf::Event event)
+void Player::setDefaultsInputs()
 {
-  if (event.type == sf::Event::KeyPressed)
-  {
-    if (event.key.code == sf::Keyboard::Up)
-      isMoving = true;
-    else if (event.key.code == sf::Keyboard::Left)
-      rotation = -1;
-    else if (event.key.code == sf::Keyboard::Right)
-      rotation = 1;
-  }
+  _playerInputs.map(PlayerInputs::Up, Action(sf::Keyboard::Up));
+  _playerInputs.map(PlayerInputs::Right, Action(sf::Keyboard::Right));
+  _playerInputs.map(PlayerInputs::Left, Action(sf::Keyboard::Left));
+}
 
-  if (event.type == sf::Event::KeyReleased)
-  {
-    if (event.key.code == sf::Keyboard::Up)
-      isMoving = false;
-    else if (event.key.code == sf::Keyboard::Left)
-      rotation = 0;
-    else if (event.key.code == sf::Keyboard::Right)
-      rotation = 0;
-  }
+void Player::processEvents()
+{
+  _isMoving = false;
+  _rotation = 0;
+  ActionTarget<int>::processEvents();
 }
 
 void Player::update(sf::Time deltaTime)
 {
   float seconds = deltaTime.asSeconds();
-  if (rotation != 0)
+  if (_rotation != 0)
   {
-    float angle = (rotation > 0 ? 1 : -1) * 180 * seconds;
-    _playerShape.rotate(angle);
+    float angle = (_rotation > 0 ? 1 : -1) * 180 * seconds;
+    _shape.rotate(angle);
   }
-  if (isMoving)
+  if (_isMoving)
   {
-    float angle = _playerShape.getRotation() / 180 * M_PI - M_PI / 2;
+    float angle = _shape.getRotation() / 180 * M_PI - M_PI / 2;
     _velocity += sf::Vector2f(std::cos(angle), std::sin(angle)) *
                  60.f * seconds;
   }
-  _playerShape.move(seconds * _velocity);
+  _shape.move(seconds * _velocity);
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-  target.draw(_playerShape, states);
+  target.draw(_shape, states);
 }
 
 #endif
