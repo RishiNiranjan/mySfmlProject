@@ -9,7 +9,7 @@
 class Game
 {
 public:
-  Game();
+  Game(int x=800, int y=600);
   void run(int framePerSecond);
 
   ~Game() = default;
@@ -20,15 +20,17 @@ public:
 
   sf::RenderWindow _window;
   Player _player;
+  int _x;
+  int _y;
 
   void processEvents();
   void update(sf::Time timePerFrame);
   void render();
 };
 
-Game::Game() : _window(sf::VideoMode(800, 600), "SfmlGame")
+Game::Game(int x, int y) : _window(sf::VideoMode(x, y), "SfmlGame"), _x{x}, _y{y}
 {
-  _player.setPosition(200, 300);
+  _player.setPosition(_x/2, _y/2);
 }
 
 void Game::run(int frame_per_seconds)
@@ -69,6 +71,20 @@ void Game::processEvents()
 void Game::update(sf::Time timePerFrame)
 {
   _player.update(timePerFrame);
+  
+  sf::Vector2f playerPosition = _player.getPosition();
+
+  if(playerPosition.x < 0)
+    playerPosition.x = _x;
+  else if(playerPosition.x > _x)
+    playerPosition.x = 0;
+
+  if(playerPosition.y < 0)
+    playerPosition.y = _y;
+  else if(playerPosition.y > _y)
+    playerPosition.y = 0;
+
+  _player.setPosition(playerPosition);
 }
 
 void Game::render()

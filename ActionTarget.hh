@@ -8,7 +8,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-class ActionMap;
+#include "Action.hh"
+#include "ActionMap.hh"
 
 template<typename T>
 class ActionTarget
@@ -18,8 +19,9 @@ public:
 
   ActionTarget<T> (const ActionTarget<T> &) = delete;
   ActionTarget<T> &operator=(const ActionTarget<T> &) = delete;
+  ActionTarget() = delete;
 
-  ActionTarget<T>(const ActionMap<T> &actionMap);
+  ActionTarget(const ActionMap<T>& actionMap);
 
   bool processEvent(const sf::Event &event) const;
   void processEvents() const;
@@ -29,8 +31,8 @@ public:
   void unbind(const T &input);
 
 private:
-  std::list<std::pair<Action, FuncType>> _eventsRealTime;
-  std::list<std::pair<Action, FuncType>> _eventsPoll;
+  std::list<std::pair<T, FuncType>> _eventsRealTime;
+  std::list<std::pair<T, FuncType>> _eventsPoll;
   const ActionMap<T> &_actionMap;
 };
 
@@ -60,7 +62,7 @@ void ActionTarget<T>::processEvents() const
 {
   for (auto &pair : _eventsRealTime)
   {
-    const Action &action = _actionMap.get(pair.first);
+    const Action& action = _actionMap.get(pair.first);
 
     if (action.test())
       pair.second(action._event);
@@ -73,9 +75,9 @@ void ActionTarget<T>::bind(const T &key, const FuncType &callback)
   const Action& action = _actionMap.get(key);
 
   if (action._type & Action::Type::RealTime)
-    _eventsRealTime.emplace_back(action, callback);
+    _eventsRealTime.emplace_back(key, callback);
   else
-    _eventsPoll.emplace_back(action, callback);
+    _eventsPoll.emplace_back(key, callback);
 }
 
 template <typename T>

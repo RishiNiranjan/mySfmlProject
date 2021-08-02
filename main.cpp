@@ -1,6 +1,6 @@
 #include "Game.hh"
 #include "thread"
-
+#include "Configuration.hh"
 // void playerUpdater(sf::RectangleShape &_player)
 // {
 //   while (true)
@@ -11,10 +11,7 @@
 
 int main(int argc, char *argv[])
 {
-  Game game;
-  // std::thread t1 = std::thread(playerUpdater, std::ref(game._player1));
-  // std::thread t2 = std::thread(playerUpdater, std::ref(game._player2));
+  Configuration::initialize();
+  Game game(800,600);
   game.run(60);
-  // t1.join();
-  // t2.join();
 }

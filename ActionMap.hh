@@ -2,8 +2,7 @@
 #define ACTIONMAP_HH
 
 #include <unordered_map>
-
-class Action;
+#include "Action.hh"
 
 template <typename T>
 class ActionMap
@@ -13,7 +12,7 @@ public:
   ActionMap<T> &operator=(const ActionMap<T> &) = delete;
   ActionMap() = default;
   
-  void map(const T &key, const Action &action);
+  void map(const T& key, const Action& action);
   
   const Action& get(const T &key) const;
 

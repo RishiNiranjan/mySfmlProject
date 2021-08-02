@@ -11,8 +11,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-class ActionTarget;
-
 class Action
 {
 public:
@@ -32,9 +30,7 @@ public:
 
   bool operator==(const sf::Event &event) const;
   bool operator==(const Action &other) const;
-
-private:
-  friend class ActionTarget<int>;
+  
   sf::Event _event;
   int _type;
 };
